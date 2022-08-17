@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:layout_margin="20dp">
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fillViewport="true">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/textViewData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Result Data"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefreshLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewData"
+                android:layout_marginTop="80dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewPulse"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/cardViewOxygen"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:cardBackgroundColor="@android:color/holo_orange_light"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/pulse"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="80dp"/>
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_gravity="center"
+                            android:padding="10dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Pulse"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/textViewPulse"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.0"
+                                android:textSize="25sp"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewOxygen"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewPulse"
+                        app:cardBackgroundColor="@android:color/holo_blue_light"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp"
+                        android:layout_marginTop="40dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/oxygen"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="80dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Oxygen"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/textViewOxygen"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.0"
+                                android:textColor="@color/black"
+                                android:textSize="25sp"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewTemperature"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewOxygen"
+                        app:cardBackgroundColor="@android:color/holo_green_light"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp"
+                        android:layout_marginTop="40dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/heat"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="80dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Temperature"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/textViewTemperature"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.0"
+                                android:textSize="25sp"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardViewHeight"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewTemperature"
+                        app:cardBackgroundColor="@android:color/holo_red_light"
+                        app:cardCornerRadius="5dp"
+                        app:cardElevation="5dp"
+                        android:layout_marginTop="40dp">
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/height"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="80dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Height"
+                                android:textStyle="bold"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <TextView
+                                android:id="@+id/textViewHeight"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.0"
+                                android:textSize="25sp"
+                                android:textColor="@color/black"
+                                android:layout_gravity="center"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <Button
+                        android:id="@+id/buttonPlay"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Play Sound"
+                        app:layout_constraintTop_toBottomOf="@+id/cardViewHeight"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginTop="50dp"/>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@+id/buttonPlay"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <!--Heading Text View-->
+                        <TextView
+                            android:id="@+id/txthead"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:text="@string/audio_recorder"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="18sp" />
+
+                        <!--This will display the status of our app when
+                            we will record some audio and play that audio-->
+                        <TextView
+                            android:id="@+id/idTVstatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="100dp"
+                            android:text="@string/status"
+                            android:textAlignment="center"
+                            android:textSize="18sp" />
+
+                        <!--Linear Layout for adding textviews
+                            in horizontal manner-->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="30dp"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <!--Textview to start audio recording
+                                drawableTop will add above mic image-->
+                            <TextView
+                                android:id="@+id/btnRecord"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@color/purple_500"
+                                android:padding="5dp"
+                                android:text="@string/start_recording"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                app:drawableTopCompat="@drawable/ic_start_recording" />
+
+                            <!--Textview to stop audio recording
+                                drawableTop will add above mic image-->
+                            <TextView
+                                android:id="@+id/btnStop"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@color/purple_500"
+                                android:padding="5dp"
+                                android:text="@string/stop_recording"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                app:drawableTopCompat="@drawable/ic_stop_recording" />
+
+                            <!--Textview to play audio that is recorded
+                                drawableTop will add above mic image-->
+                            <TextView
+                                android:id="@+id/btnPlay"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@color/purple_500"
+                                android:padding="5dp"
+                                android:text="@string/play_recording"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                app:drawableTopCompat="@drawable/ic_play_audio" />
+
+                            <!--Textview to pause the play of audio recording
+                                drawableTop will add above mic image-->
+                            <TextView
+                                android:id="@+id/btnStopPlay"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:layout_weight="1"
+                                android:background="@color/purple_500"
+                                android:lines="2"
+                                android:padding="5dp"
+                                android:text="@string/stop_playing"
+                                android:textAlignment="center"
+                                android:textColor="@color/white"
+                                app:drawableTopCompat="@drawable/ic_pause_audio" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
