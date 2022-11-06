@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Medikit</string>
+    <string name="app_name">Testkit</string>
     <string name="alert">Warning!!!</string>
     <string name="toggle_flash">Toggle Flash</string>
     <string name="action_settings">Settings</string>
