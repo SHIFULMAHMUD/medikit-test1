@@ -234,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
             // below method is used to set the
+            
             // output file location for our recorded audio
 
             mRecorder.setOutputFile(mFileName);
