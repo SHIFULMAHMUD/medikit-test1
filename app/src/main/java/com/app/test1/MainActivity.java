@@ -235,6 +235,7 @@ public class MainActivity extends AppCompatActivity {
 
             // below method is used to set the
             // output file location for our recorded audio
+
             mRecorder.setOutputFile(mFileName);
             try {
                 // below method will prepare
