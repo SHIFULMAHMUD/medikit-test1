@@ -8,9 +8,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.loader.content.Loader;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -41,22 +43,25 @@ import com.app.test1.model.height.Height;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    TextView textViewHeight;
+//    TextView textViewHeight;
     private ApiInterface apiInterface;
     ConstraintLayout layout;
     SwipeRefreshLayout refreshLayout;
     MediaPlayer mediaPlayer;
-    boolean prepared=false;
-    boolean started=false;
-    Button buttonPlay;
-    String stream="http://192.168.88.72/";
+    boolean prepared = false;
+    boolean started = false;
+    Button buttonPlay, buttonShare;
+    String stream = "http://192.168.88.72/";
 
     // Initializing all variables..
     private TextView startTV, stopTV, playTV, stopplayTV, statusTV;
@@ -77,8 +82,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        textViewHeight = findViewById(R.id.textViewHeight);
-        buttonPlay=findViewById(R.id.buttonPlay);
+//        textViewHeight = findViewById(R.id.textViewHeight);
+        buttonPlay = findViewById(R.id.buttonPlay);
+        buttonShare = findViewById(R.id.buttonShare);
         refreshLayout = findViewById(R.id.swipeRefreshLayout);
         layout = findViewById(R.id.layout);
         statusTV = findViewById(R.id.idTVstatus);
@@ -114,59 +120,66 @@ public class MainActivity extends AppCompatActivity {
                 pausePlaying();
             }
         });
+        buttonShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareFile();
+            }
+        });
 
         refreshLayout.setColorSchemeResources(R.color.purple_700);
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 refreshLayout.setRefreshing(true);
-                getHeightData();
+//                getHeightData();
             }
         });
         buttonPlay.setEnabled(false);
         buttonPlay.setText("Loading..");
-        mediaPlayer= new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         new PlayerTask().execute(stream);
         buttonPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(started){
+                if (started) {
                     mediaPlayer.pause();
                     buttonPlay.setText("Play");
-                    started=false;
-                }else{
+                    started = false;
+                } else {
                     mediaPlayer.start();
                     buttonPlay.setText("Pause");
-                    started=true;
+                    started = true;
                 }
             }
         });
-        getHeightData();
+//        getHeightData();
     }
 
-    private void getHeightData() {
-        refreshLayout.setRefreshing(false);
-        apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<Height> call = apiInterface.getHeightData("GEAWZO7Y24UC8F58");
-        call.enqueue(new Callback<Height>() {
-            @Override
-            public void onResponse(Call<Height> call, Response<Height> response) {
-                if (response.code()==200) {
-                    Height body=response.body();
-                    textViewHeight.setText(body.getFeeds().get(body.getFeeds().size()-1).getField1());
-                    getHeightData();
-                }
-            }
-            @Override
-            public void onFailure(Call<Height> call, Throwable t) {
-                t.printStackTrace();
-                Log.d("fail",t.getLocalizedMessage());
-            }
-        });
-    }
+//    private void getHeightData() {
+//        refreshLayout.setRefreshing(false);
+//        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+//        Call<Height> call = apiInterface.getHeightData("GEAWZO7Y24UC8F58");
+//        call.enqueue(new Callback<Height>() {
+//            @Override
+//            public void onResponse(Call<Height> call, Response<Height> response) {
+//                if (response.code() == 200) {
+//                    Height body = response.body();
+//                    textViewHeight.setText(body.getFeeds().get(body.getFeeds().size() - 1).getField1());
+//                    getHeightData();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Height> call, Throwable t) {
+//                t.printStackTrace();
+//                Log.d("fail", t.getLocalizedMessage());
+//            }
+//        });
+//    }
 
-    class PlayerTask extends AsyncTask<String,Void,Boolean>{
+    class PlayerTask extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... strings) {
             try {
@@ -178,6 +191,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return prepared;
         }
+
         @Override
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
@@ -189,8 +203,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if (started)
-        {
+        if (started) {
             mediaPlayer.pause();
         }
     }
@@ -198,8 +211,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (started)
-        {
+        if (started) {
             mediaPlayer.start();
         }
     }
@@ -234,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
             mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
             // below method is used to set the
-            
+
             // output file location for our recorded audio
 
             mRecorder.setOutputFile(mFileName);
@@ -342,5 +354,15 @@ public class MainActivity extends AppCompatActivity {
         playTV.setBackgroundColor(getResources().getColor(R.color.purple_200));
         stopplayTV.setBackgroundColor(getResources().getColor(R.color.gray));
         statusTV.setText("Recording Play Stopped");
+    }
+
+    public void ShareFile() {
+        File file = new File(mFileName);
+        Uri contentUri = FileProvider.getUriForFile(Objects.requireNonNull(getApplicationContext()),
+                BuildConfig.APPLICATION_ID + ".provider", file);
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        shareIntent.setType("text/plain");
+        startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.select)));
     }
 }
